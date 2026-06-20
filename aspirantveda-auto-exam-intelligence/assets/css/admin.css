@@ -1,0 +1,11 @@
+#avaei-dashboard-root {
+    margin-top: 20px;
+}
+
+.avaei-card {
+    background: #ffffff;
+    border: 1px solid #e1e1e1;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
