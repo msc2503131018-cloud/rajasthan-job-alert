@@ -14,11 +14,21 @@ A WordPress plugin for enterprise-grade AI-powered monitoring and publishing of 
 - Change detection and duplicate avoidance.
 - AI content generation with Gemini, Claude, and OpenAI provider support.
 - Auto post generation, category assignment, tags, featured image placeholders, internal linking, and related posts.
+- Built-in public blog (`/blog`) with searchable and filterable listing, pagination, and responsive templates.
+- Dedicated blog post type with categories/tags, featured image cover support, author metadata, and publish/draft lifecycle.
+- Operator-safe blog management from WP Admin with publish validation and slug sanitization.
 - Modern React admin dashboard.
 - REST API endpoints with authentication and nonce validation.
 - Custom database tables with migration and uninstall cleanup.
 - Custom cron schedules and queue processing.
 - Email alert notifications.
+
+## Blog Usage
+
+1. Open **WP Admin → AspirantVeda → Blog Posts** to create and manage blog entries.
+2. Fill title, content, excerpt/summary, cover image, category, and tags.
+3. Publish when ready. If title/content/slug is invalid at publish time, the post is safely stored as draft with an admin notice.
+4. Public users can browse `/blog`, search, filter by category/tag, and open individual post pages.
 
 ## Developer Guide
 

@@ -30,7 +30,7 @@ if (!defined('AVAEI_PLUGIN_URL')) {
 
 require_once AVAEI_PLUGIN_DIR . 'src/Autoloader.php';
 
-use AspirantVeda\AutoExamIntelligence\Plugin;
+use AspirantVeda\AutoExamIntelligence\Core\Plugin;
 
 function avaei_load_plugin() {
     $plugin = new Plugin();
