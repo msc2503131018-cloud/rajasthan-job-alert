@@ -63,7 +63,12 @@ $tags = get_tags(['hide_empty' => false]);
                 <article <?php post_class('avaei-blog-card'); ?>>
                     <a class="avaei-blog-card__media" href="<?php the_permalink(); ?>">
                         <?php if (has_post_thumbnail()) : ?>
-                            <?php the_post_thumbnail('large'); ?>
+                            <?php
+                            the_post_thumbnail('large', [
+                                'loading' => 'lazy',
+                                'decoding' => 'async',
+                            ]);
+                            ?>
                         <?php else : ?>
                             <span><?php esc_html_e('No cover image', 'aspirantveda-auto-exam-intelligence'); ?></span>
                         <?php endif; ?>

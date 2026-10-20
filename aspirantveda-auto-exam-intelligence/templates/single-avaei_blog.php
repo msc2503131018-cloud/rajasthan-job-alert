@@ -27,7 +27,12 @@ get_header();
 
             <?php if (has_post_thumbnail()) : ?>
                 <figure class="avaei-blog-post__cover">
-                    <?php the_post_thumbnail('large'); ?>
+                    <?php
+                    the_post_thumbnail('large', [
+                        'loading' => 'lazy',
+                        'decoding' => 'async',
+                    ]);
+                    ?>
                 </figure>
             <?php endif; ?>
 
