@@ -8,6 +8,7 @@ use AspirantVeda\AutoExamIntelligence\Core\Admin\AdminHooks;
 use AspirantVeda\AutoExamIntelligence\Core\Database\Installer;
 use AspirantVeda\AutoExamIntelligence\Core\Cron\Scheduler;
 use AspirantVeda\AutoExamIntelligence\Core\API\REST\Router;
+use AspirantVeda\AutoExamIntelligence\Core\Blog\BlogManager;
 use AspirantVeda\AutoExamIntelligence\Core\Services\SourceMonitorService;
 use AspirantVeda\AutoExamIntelligence\Core\Services\AIContentService;
 use AspirantVeda\AutoExamIntelligence\Core\Services\NotificationService;
@@ -17,6 +18,7 @@ class Plugin {
     private AdminHooks $adminHooks;
     private Scheduler $scheduler;
     private Router $router;
+    private BlogManager $blogManager;
     private SourceMonitorService $sourceMonitor;
     private AIContentService $aiContent;
     private NotificationService $notification;
@@ -26,6 +28,7 @@ class Plugin {
         $this->adminHooks      = new AdminHooks();
         $this->scheduler       = new Scheduler();
         $this->router          = new Router();
+        $this->blogManager     = new BlogManager();
         $this->sourceMonitor   = new SourceMonitorService();
         $this->aiContent       = new AIContentService();
         $this->notification    = new NotificationService();
@@ -41,6 +44,7 @@ class Plugin {
         register_deactivation_hook(AVAEI_PLUGIN_FILE, [$this->installer, 'deactivate']);
         register_uninstall_hook(AVAEI_PLUGIN_FILE, ['AspirantVeda\\AutoExamIntelligence\\Core\\Database\\Installer', 'uninstall']);
 
+        $this->blogManager->register_hooks();
         $this->scheduler->register_schedules();
         $this->scheduler->register_cron_jobs();
     }
