@@ -2,6 +2,8 @@
 
 defined('ABSPATH') || exit;
 
+use AspirantVeda\AutoExamIntelligence\Core\Blog\BlogImageRenderer;
+
 get_header();
 ?>
 <main class="avaei-blog avaei-blog--single">
@@ -28,10 +30,12 @@ get_header();
             <?php if (has_post_thumbnail()) : ?>
                 <figure class="avaei-blog-post__cover">
                     <?php
-                    the_post_thumbnail('large', [
-                        'loading' => 'lazy',
+                    echo wp_kses_post(BlogImageRenderer::render_thumbnail((int) get_the_ID(), 'large', [
+                        'loading' => 'eager',
                         'decoding' => 'async',
-                    ]);
+                        'fetchpriority' => 'high',
+                        'sizes' => '(max-width: 920px) 100vw, 920px',
+                    ]));
                     ?>
                 </figure>
             <?php endif; ?>

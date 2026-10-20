@@ -18,7 +18,10 @@ A WordPress plugin for enterprise-grade AI-powered monitoring and publishing of 
 - Dedicated blog post type with categories/tags, featured image cover support, author metadata, and publish/draft lifecycle.
 - Operator-safe blog management from WP Admin with publish validation and slug sanitization.
 - Lightweight public-page caching (5-minute transient cache) for blog archive and blog post detail pages with automatic invalidation on blog updates.
-- Lazy-loaded, async-decoded blog cover images for improved perceived performance on listing and detail screens.
+- Blog Performance admin view with cache entries/size/hit/miss observability and one-click cache purge.
+- Optimized archive query defaults and cached category/tag filter options to reduce repeat taxonomy query overhead.
+- Lazy/eager responsive image loading with async decoding plus optional AVIF/WebP `<picture>` sources when generated assets exist.
+- Preload/prefetch resource hints for critical blog images and next navigation routes.
 - Modern React admin dashboard.
 - REST API endpoints with authentication and nonce validation.
 - Custom database tables with migration and uninstall cleanup.
@@ -32,6 +35,7 @@ A WordPress plugin for enterprise-grade AI-powered monitoring and publishing of 
 3. Publish when ready. If title/content/slug is invalid at publish time, the post is safely stored as draft with an admin notice.
 4. Public users can browse `/blog`, search, filter by category/tag, and open individual post pages.
 5. Public blog pages are cached for 5 minutes and automatically purged when a blog post is created, updated, deleted, or its category/tag assignment changes.
+6. Open **WP Admin → AspirantVeda → Blog Performance** to monitor cache hits/misses, entry count, estimated cache size, last flush time, and manually purge cache.
 
 ## Developer Guide
 

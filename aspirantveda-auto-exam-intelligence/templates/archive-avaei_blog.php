@@ -2,6 +2,9 @@
 
 defined('ABSPATH') || exit;
 
+use AspirantVeda\AutoExamIntelligence\Core\Blog\BlogImageRenderer;
+use AspirantVeda\AutoExamIntelligence\Core\Blog\BlogManager;
+
 get_header();
 
 $searchValue = '';
@@ -15,8 +18,9 @@ if (isset($_GET['blog_tag']) && is_string($_GET['blog_tag'])) {
     $selectedTag = sanitize_title(wp_unslash($_GET['blog_tag']));
 }
 
-$categories = get_categories(['hide_empty' => false]);
-$tags = get_tags(['hide_empty' => false]);
+$filterOptions = BlogManager::get_archive_filter_options();
+$categories = $filterOptions['categories'];
+$tags = $filterOptions['tags'];
 ?>
 <main class="avaei-blog avaei-blog--archive">
     <section class="avaei-blog__hero">
@@ -35,8 +39,8 @@ $tags = get_tags(['hide_empty' => false]);
             <select name="blog_category">
                 <option value="0"><?php esc_html_e('All categories', 'aspirantveda-auto-exam-intelligence'); ?></option>
                 <?php foreach ($categories as $category) : ?>
-                    <option value="<?php echo esc_attr((string) $category->term_id); ?>" <?php selected($selectedCategory, (int) $category->term_id); ?>>
-                        <?php echo esc_html($category->name); ?>
+                    <option value="<?php echo esc_attr((string) $category['id']); ?>" <?php selected($selectedCategory, (int) $category['id']); ?>>
+                        <?php echo esc_html($category['name']); ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -47,8 +51,8 @@ $tags = get_tags(['hide_empty' => false]);
             <select name="blog_tag">
                 <option value=""><?php esc_html_e('All tags', 'aspirantveda-auto-exam-intelligence'); ?></option>
                 <?php foreach ($tags as $tag) : ?>
-                    <option value="<?php echo esc_attr($tag->slug); ?>" <?php selected($selectedTag, $tag->slug); ?>>
-                        <?php echo esc_html($tag->name); ?>
+                    <option value="<?php echo esc_attr($tag['slug']); ?>" <?php selected($selectedTag, $tag['slug']); ?>>
+                        <?php echo esc_html($tag['name']); ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -59,15 +63,19 @@ $tags = get_tags(['hide_empty' => false]);
 
     <?php if (have_posts()) : ?>
         <div class="avaei-blog__grid">
+            <?php $postIndex = 0; ?>
             <?php while (have_posts()) : the_post(); ?>
                 <article <?php post_class('avaei-blog-card'); ?>>
                     <a class="avaei-blog-card__media" href="<?php the_permalink(); ?>">
                         <?php if (has_post_thumbnail()) : ?>
                             <?php
-                            the_post_thumbnail('large', [
-                                'loading' => 'lazy',
+                            $isFirstCard = $postIndex === 0;
+                            echo wp_kses_post(BlogImageRenderer::render_thumbnail((int) get_the_ID(), 'large', [
+                                'loading' => $isFirstCard ? 'eager' : 'lazy',
                                 'decoding' => 'async',
-                            ]);
+                                'fetchpriority' => $isFirstCard ? 'high' : 'low',
+                                'sizes' => '(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw',
+                            ]));
                             ?>
                         <?php else : ?>
                             <span><?php esc_html_e('No cover image', 'aspirantveda-auto-exam-intelligence'); ?></span>
@@ -89,6 +97,7 @@ $tags = get_tags(['hide_empty' => false]);
                         <p><?php echo esc_html(get_the_excerpt()); ?></p>
                     </div>
                 </article>
+                <?php $postIndex++; ?>
             <?php endwhile; ?>
         </div>
 
